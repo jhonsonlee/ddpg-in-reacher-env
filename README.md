@@ -106,27 +106,24 @@ python -m ipykernel install --user --name drlnd --display-name "drlnd"
 The code in this repository will be written mostly in `.ipynb` file. Thus, you need to get familiar with the **jupyter notebook** which is a great editor today. Please, take your time to know Jupyter Notebook in [this blogpost](https://medium.com/codingthesmartway-com-blog/getting-started-with-jupyter-notebook-for-python-4e7082bd5d46).
 
 
-### Instructions
+## Instructions
 
-Follow the instructions in `Continuous_Control.ipynb` to get started with training your own agent!  
+### Navigating The Source Code
+There are three important files which contains the source code to run and train our agent:
+- `Continious Control.ipynb` contains the instructions to explore the environent, train the agent to be smart and run the smart agent.
+- `/src/agent.py` contains the source code which describes how the agent works
+- `/src/model.py` contains the source code of deep learning model for the DDPG algoritm.
 
-### (Optional) Challenge: Crawler Environment
+### Explore the Environment
+In order to understand how to create a smart agent, we must recognize the environment first. Please, open `Continious Control.ipynb` using Jupyter Notebook and follow these steps:
+- Step 1 : Start the Environment
+- Step 2 : Examine the State and Action Spaces
+- Step 3 : Take Random Actions in the Environment
 
-After you have successfully completed the project, you might like to solve the more difficult **Crawler** environment.
+### Train the Agent
+As you can see in the **Explore the Environment** section, the agent is still taking random actions and generate zero points during the gameplay. In order to create a smart agent, we need to train the agent by following these two steps:
+- Step 4 : Contruct the Train Method
+- Step 5 : Train the Agent
 
-![Crawler][image2]
-
-In this continuous control environment, the goal is to teach a creature with four legs to walk forward without falling.  
-
-You can read more about this environment in the ML-Agents GitHub [here](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#crawler).  To solve this harder task, you'll need to download a new Unity environment.  (**Note**: Udacity students should not submit a project with this new environment.)
-
-You need only select the environment that matches your operating system:
-- Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Linux.zip)
-- Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler.app.zip)
-- Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Windows_x86.zip)
-- Windows (64-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Windows_x86_64.zip)
-
-Then, place the file in the `p2_continuous-control/` folder in the DRLND GitHub repository, and unzip (or decompress) the file.  Next, open `Crawler.ipynb` and follow the instructions to learn how to use the Python API to control the agent.
-
-(_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Crawler/Crawler_Linux_NoVis.zip) to obtain the "headless" version of the environment.  You will **not** be able to watch the agent without enabling a virtual screen, but you will be able to train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
-
+### Watch the Smart Agent Play
+After we train to agent how to better play the game, we can watch the agent play with better decision and better score. Howevever, we can not see the agent play in live gameplay in this notebook. But, we can see the agent collects yellow bananas and avoids blue bananas by inspecting the score movement. Please follow the **Step 6 : Watch the Agent Play**.
