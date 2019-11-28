@@ -6,7 +6,7 @@
 
 # Solve Reacher Environment Using DDPG Agent
 
-### Introduction
+## Introduction
 
 In this project, we will create an agent to reach the green balooon. The agent is in form of a robotic arm which have a freedom to move in all direction. The term agent here is a robot built using Artificial Intelligence. In detail, we use Deep Deterministic Policy Gradient(DDPG) well-written in [this paper](https://arxiv.org/abs/1509.02971).
 
@@ -16,7 +16,7 @@ We will use [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/maste
 
 Keep in mind, our goal is move the agent's hand to touch the target baloon. A reward of +0.1 is provided for each step that the agent's hand is in the baloon location. Thus, the goal of your agent is to maintain its position at the target baloon for as many time steps as possible.
 
-### The Details on The Environment and The Agent
+## The Details on The Environment and The Agent
 
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
