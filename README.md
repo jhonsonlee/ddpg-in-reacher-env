@@ -16,6 +16,8 @@ We will use [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/maste
 
 Keep in mind, our goal is move the agent's hand to touch the target baloon. A reward of +0.1 is provided for each step that the agent's hand is in the baloon location. Thus, the goal of your agent is to maintain its position at the target baloon for as many time steps as possible.
 
+### The Details on The Environment and The Agent
+
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
 ### Distributed Training
