@@ -9,23 +9,21 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-BUFFER_SIZE = int(1e6)  # replay buffer size
+BUFFER_SIZE = int(1e5)  # replay buffer size
 BATCH_SIZE = 128        # minibatch size
 GAMMA = 0.99            # discount factor
 TAU = 1e-3              # for soft update of target parameters
-LR_ACTOR = 1e-3         # learning rate of the actor 
-LR_CRITIC = 1e-3        # learning rate of the critic
-WEIGHT_DECAY = 0.0     # L2 weight decay
-LEARN_EVERY = 20        # learning frequency
-LEARN_NUM   = 10        # number of learning passes
-GRAD_CLIPPING = 1.0     # Gradient Clipping
+LR_ACTOR = 2e-4         # learning rate of the actor 
+LR_CRITIC = 2e-4        # learning rate of the critic
+WEIGHT_DECAY = 0        # L2 weight decay
+GRAD_CLIPPING = 1       # Gradient clipping
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class Agent():
     
-    def __init__(self, state_size, action_size, random_seed):
-        
+    def __init__(self, state_size, action_size, random_seed=42):
+                
         self.state_size = state_size
         self.action_size = action_size
         self.seed = random.seed(random_seed)
@@ -38,18 +36,20 @@ class Agent():
         self.critic_target = Critic(state_size, action_size, random_seed).to(device)
         self.critic_optimizer = optim.Adam(self.critic_local.parameters(), lr=LR_CRITIC, weight_decay=WEIGHT_DECAY)
 
+        self.hard_copy_weights(self.actor_target, self.actor_local)
+        self.hard_copy_weights(self.critic_target, self.critic_local)
+        
         self.noise = OUNoise(action_size, random_seed)
 
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
     
-    def step(self, state, action, reward, next_state, done, timestep):
+    def step(self, state, action, reward, next_state, done):
         
         self.memory.add(state, action, reward, next_state, done)
 
-        if len(self.memory) > BATCH_SIZE and timestep % LEARN_EVERY == 0:
-            for _ in range(LEARN_NUM):
-                experiences = self.memory.sample()
-                self.learn(experiences, GAMMA)
+        if len(self.memory) > BATCH_SIZE:
+            experiences = self.memory.sample()
+            self.learn(experiences, GAMMA)
 
     def act(self, state, add_noise=True):
         
@@ -81,7 +81,7 @@ class Agent():
         # Minimize the loss
         self.critic_optimizer.zero_grad()
         critic_loss.backward()
-        if GRAD_CLIPPING > 0:
+        if GRAD_CLIPPING > 0.0:
             torch.nn.utils.clip_grad_norm_(self.critic_local.parameters(), GRAD_CLIPPING)
         self.critic_optimizer.step()
 
@@ -102,11 +102,17 @@ class Agent():
         
         for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
+            
+    def hard_copy_weights(self, target, source):
+        
+        for target_param, param in zip(target.parameters(), source.parameters()):
+            target_param.data.copy_(param.data)
 
+            
 class OUNoise:
     
 
-    def __init__(self, size, seed, mu=0., theta=0.05, sigma=0.15):
+    def __init__(self, size, seed, mu=0., theta=0.15, sigma=0.1):
     
         self.mu = mu * np.ones(size)
         self.theta = theta
