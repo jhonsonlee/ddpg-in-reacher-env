@@ -41,14 +41,14 @@ class Agent():
         
         self.noise = OUNoise(action_size, random_seed)
 
-        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
+        #self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
     
-    def step(self, state, action, reward, next_state, done):
+    def step(self, memory, state, action, reward, next_state, done):
         
-        self.memory.add(state, action, reward, next_state, done)
+        memory.add(state, action, reward, next_state, done)
 
-        if len(self.memory) > BATCH_SIZE:
-            experiences = self.memory.sample()
+        if len(memory) > BATCH_SIZE:
+            experiences = memory.sample()
             self.learn(experiences, GAMMA)
 
     def act(self, state, add_noise=True):
